@@ -1,35 +1,26 @@
+import logging
+
 import requests
 from robobrowser import RoboBrowser
-from logger.Logger import DEBUG
-from scraper.HealthStatusScraper import HealthStatusScraper
+
 from exceptions.ExceptionHandler import AuthException
+from scraper.HealthStatusScraper import HealthStatusScraper
 from scraper.const import BASE_URL, LOGIN_URL
 
 
 class AccountScraper:
 
     def __init__(self, user_session: requests.Session = None):
-        """
-        TODO: docstring
-        :param user_session:
-        """
         self.__client = RoboBrowser(session=user_session, history=True, parser='html.parser')
         self.__client.open(BASE_URL)
 
-        DEBUG(f'BASE <{BASE_URL}> : RESPONSE <{self.__client.url}>')
+        logging.debug(f'BASE <{BASE_URL}> : RESPONSE <{self.__client.url}>')
         self.logged_in = (self.__client.response.url != LOGIN_URL)
 
     def __get_login_form(self):
-        """
-        TODO: docstring
-        """
         self.__form = self.__client.get_form(id='login_form')
 
     def login(self, phone: str):
-        """
-        TODO: docstring
-        :param phone:
-        """
         if not phone:
             raise AuthException("ERROR: Phone number not provided")
 
@@ -39,10 +30,6 @@ class AccountScraper:
         self.__client.submit_form(self.__form)
 
     def verify_login(self, otp: str):
-        """
-        TODO: docstring
-        :param otp:
-        """
         if not otp:
             raise AuthException("ERROR: OTP not provided")
 
@@ -51,12 +38,13 @@ class AccountScraper:
                 self.__get_login_form()  # Fetch the new login form
                 self.__form['otp'] = otp
                 self.__client.submit_form(self.__form)
-                DEBUG(f'RESPONSES : {self.__client.response.history}')
+                logging.debug(f'RESPONSES : {self.__client.response.history}')
 
                 if self.__client.response.history:
                     if self.__client.response.history[0].status_code == 302:
                         self.logged_in = True
-                        DEBUG(f'STATUS CODE: {self.__client.response.history[0].status_code} -- LOGGED IN SUCCESSFULLY')
+                        logging.debug(
+                            f'STATUS CODE: {self.__client.response.history[0].status_code} -- LOGGED IN SUCCESSFULLY')
                     else:
                         raise AuthException("ERROR: Something went wrong when trying to send the verification request")
                 else:
@@ -70,24 +58,12 @@ class AccountScraper:
         return self.logged_in
 
     def get_session(self):
-        """
-        TODO: docstring
-        :return:
-        """
         return self.__client.session
 
     def close_session(self):
-        """
-        TODO: docstring
-        """
         self.__client.session.close()
 
     def generate_health_check(self, healthcheck_status: str):
-        """
-        TODO: docstring
-        :param healthcheck_status:
-        :return:
-        """
         if not self.logged_in:
             raise AuthException("ERROR: User not logged in")
 
@@ -103,8 +79,4 @@ class AccountScraper:
         }
 
     def __str__(self):
-        """
-        TODO: docstring
-        :return:
-        """
         return str(self.__client.response.content)

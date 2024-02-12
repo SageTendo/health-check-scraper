@@ -13,13 +13,6 @@ class HealthCheck(cogs.Cog):
         self.image_processor = ImageProcessor()
 
     async def handle_health_check(self, ctx):
-        """
-              TODO: docstring
-
-              :param ctx:
-              :return:
-              """
-
         auth_id = ctx.author.id
         if auth_id not in users:
             await ctx.send("ERROR: No user found")

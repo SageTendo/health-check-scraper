@@ -2,9 +2,9 @@ import os
 
 from telegrampy.ext import commands as cogs
 
+import logging
 from bots.telegram.telegramBot import users, user_sessions, vaccine_uptakes
 from exceptions.ExceptionHandler import AuthException
-from logger.Logger import DEBUG
 from scraper import AccountScraper
 from settings import static_path
 from utils.InputHandler import verify_phone, verify_otp
@@ -16,12 +16,6 @@ class Account(cogs.Cog):
 
     @cogs.command()
     async def setup(self, ctx, phone_number):
-        """
-        TODO: docstring
-
-        :param phone_number:
-        :param ctx:
-        """
         auth_id = ctx.author.id
 
         try:
@@ -50,8 +44,8 @@ class Account(cogs.Cog):
                     user_sessions[auth_id] = user.get_session()
                     users[auth_id] = phone_number
                     vaccine_uptakes[auth_id] = vaccine_uptake_msg.content
-                    DEBUG(f'USERS : {str(users)}')
-                    DEBUG(f'USER_SESSIONS : {str(user_sessions)}')
+                    logging.debug(f'USERS : {str(users)}')
+                    logging.debug(f'USER_SESSIONS : {str(user_sessions)}')
                     await ctx.send('SUCCESS: Logged in successfully')
                 except AuthException as error:
                     await ctx.send(error)
@@ -59,17 +53,12 @@ class Account(cogs.Cog):
                 await ctx.send('ERROR: User already exists')
         except IndexError:
             await ctx.send('ERROR: Phone number not provided')
-            DEBUG(f'USER {ctx.author} did not provide a phone number')
+            logging.debug(f'USER {ctx.author} did not provide a phone number')
         except AuthException as error:
             await ctx.send(error)
 
     @cogs.command()
     async def remove(self, ctx):
-        """
-        TODO: docstring
-
-        :param ctx:
-        """
         auth_id = ctx.author.id
         if auth_id in users:
 

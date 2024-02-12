@@ -14,13 +14,6 @@ class ImageProcessor:
 
     @staticmethod
     def __generate_html(status_div: str, receipt_div: str):
-        """
-        TODO: docstring
-        :param status_div:
-        :param receipt_div:
-        :return:
-        """
-        # noinspection SpellCheckingInspection
         html = f"""
         <!DOCTYPE html>
         <html>
@@ -46,13 +39,6 @@ class ImageProcessor:
         return html
 
     def generate_image(self, user_id: int, status_div: str, receipt_div: str, receipt_type: str):
-        """
-        TODO: docstring
-        :param user_id:
-        :param status_div:
-        :param receipt_div:
-        :param receipt_type:
-        """
         filename = f'{user_id}.jpg'
         html = self.__generate_html(status_div, receipt_div)
         size = IMAGE_DIMENSIONS[receipt_type]
@@ -60,11 +46,6 @@ class ImageProcessor:
 
     @staticmethod
     def open_image(user_id: int):
-        """
-        TODO: docstring
-        :param user_id:
-        :return:
-        """
         file = f'{user_receipts_path}/{user_id}.jpg'
         with open(file, 'rb') as f:
             f = io.BytesIO(f.read())
