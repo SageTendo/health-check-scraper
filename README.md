@@ -17,7 +17,7 @@ During university, I was required to submit daily health checks due to COVID-19 
 1. Clone the repository:  
    ```bash
    git clone https://github.com/yourusername/higher-health-check-automation.git
-   cd higher-health-check-automation
+   cd higher-health-check-scraper
    ```  
 2. Install dependencies:  
    ```bash
