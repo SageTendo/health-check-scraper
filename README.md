@@ -1,4 +1,4 @@
-# **Higher Health Check Automation** 🚀 *(Archived)*  
+# **Higher Health Check Automation** 🚀  
 
 > ⚠️ This project was developed for **personal use** during COVID-19 and is no longer actively maintained.
 
