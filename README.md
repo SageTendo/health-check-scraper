@@ -2,7 +2,7 @@
 
 > ⚠️ This project was developed for **personal use** during COVID-19 and is no longer actively maintained.
 
-A script that automates the daily health check process on the government website during COVID-19, using a Telegram bot for interaction. 
+A program that automates the daily health check process on the government website during COVID-19, using a Telegram bot for interaction. 
 Initially, the project included Discord integration, but that feature was a work in progress and has since been removed.
 
 ## 💡 Why I Made This  
